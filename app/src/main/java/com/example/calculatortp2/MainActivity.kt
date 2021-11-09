@@ -1,9 +1,7 @@
 package com.example.calculatortp2
 
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
-import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
@@ -27,65 +25,128 @@ class MainActivity : AppCompatActivity() {
     val button_reset : Button = findViewById(R.id.buttonreset)
     val button_equal : Button = findViewById(R.id.buttonequal)
     val field_result : TextView = findViewById(R.id.tv_result)
-    var expression : String = ""
+    val expression : StringBuilder = StringBuilder("")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        button0.setOnClickListener(evaluateExpression("0", true))
-        button1.setOnClickListener(evaluateExpression("1", true))
-        button2.setOnClickListener(evaluateExpression("2", true))
-        button3.setOnClickListener(evaluateExpression("3", true))
-        button4.setOnClickListener(evaluateExpression("4", true))
-        button5.setOnClickListener(evaluateExpression("5", true))
-        button6.setOnClickListener(evaluateExpression("6", true))
-        button7.setOnClickListener(evaluateExpression("7", true))
-        button8.setOnClickListener(evaluateExpression("8", true))
-        button9.setOnClickListener(evaluateExpression("9", true))
+        button0.setOnClickListener{addArgumenttoExpression("0")}
+        button1.setOnClickListener{addArgumenttoExpression("1")}
+        button2.setOnClickListener{addArgumenttoExpression("2")}
+        button3.setOnClickListener{addArgumenttoExpression("3")}
+        button4.setOnClickListener{addArgumenttoExpression("4")}
+        button5.setOnClickListener{addArgumenttoExpression("5")}
+        button6.setOnClickListener{addArgumenttoExpression("6")}
+        button7.setOnClickListener{addArgumenttoExpression("7")}
+        button8.setOnClickListener{addArgumenttoExpression("8")}
+        button9.setOnClickListener{addArgumenttoExpression("9")}
 
         button_add.setOnClickListener {
-            evaluateExpression("+", clear = true)
+            addArgumenttoExpression("+")
         }
         button_minus.setOnClickListener {
-            evaluateExpression("-", clear = true)
+            addArgumenttoExpression("-")
         }
         button_mul.setOnClickListener {
-            evaluateExpression("*", clear = true)
+            addArgumenttoExpression("*")
         }
         button_div.setOnClickListener {
-            evaluateExpression("/", clear = true)
+            addArgumenttoExpression("/")
         }
         button_dot.setOnClickListener {
-            evaluateExpression(".", clear = true)
+            addArgumenttoExpression(".")
         }
         button_reset.setOnClickListener {
-            field_result.text = ""
+            expression.setLength(0)
+            field_result.text = "0"
         }
 
         /* function for computation */
         button_equal.setOnClickListener {
-            val text = tvExpression.text.toString()
-            val expression = ExpressionBuilder(text).build()
+            var result = eval(expression.toString()).toString()
+            field_result.text = result
 
-            val result = expression.evaluate()
-            val longResult = result.toLong()
-            if (result == longResult.toDouble()) {
-                tvResult.text = longResult.toString()
-            } else {
-                tvResult.text = result.toString()
-            }
         }
     }
 
-    fun evaluateExpression(string: String, clear: Boolean): View.OnClickListener? {
-        if(clear) {
-            Result.text = ""
-            Expression.append(string)
-        } else {
-            Expression.append(Result.text)
-            Expression.append(string)
-            Result.text = ""
-        }
+    fun addArgumenttoExpression(string: String) {
+        expression.append(string)
+    }
+
+    fun eval(str: String): Double {
+        return object : Any() {
+            var pos = -1
+            var ch = 0
+            fun nextChar() {
+                ch = if (++pos < str.length) str[pos].toInt() else -1
+            }
+
+            fun eat(charToEat: Int): Boolean {
+                while (ch == ' '.toInt()) nextChar()
+                if (ch == charToEat) {
+                    nextChar()
+                    return true
+                }
+                return false
+            }
+
+            fun parse(): Double {
+                nextChar()
+                val x = parseExpression()
+                if (pos < str.length) throw RuntimeException("Unexpected: " + ch.toChar())
+                return x
+            }
+
+            fun parseExpression(): Double {
+                var x = parseTerm()
+                while (true) {
+                    if (eat('+'.toInt())) x += parseTerm() // addition
+                    else if (eat('-'.toInt())) x -= parseTerm() // subtraction
+                    else return x
+                }
+            }
+
+            fun parseTerm(): Double {
+                var x = parseFactor()
+                while (true) {
+                    if (eat('*'.toInt())) x *= parseFactor() // multiplication
+                    else if (eat('/'.toInt())) x /= parseFactor() // division
+                    else return x
+                }
+            }
+
+            fun parseFactor(): Double {
+                if (eat('+'.toInt())) return parseFactor() // unary plus
+                if (eat('-'.toInt())) return -parseFactor() // unary minus
+                var x: Double
+                val startPos = pos
+                if (eat('('.toInt())) { // parentheses
+                    x = parseExpression()
+                    eat(')'.toInt())
+                } else if (ch >= '0'.toInt() && ch <= '9'.toInt() || ch == '.'.toInt()) { // numbers
+                    while (ch >= '0'.toInt() && ch <= '9'.toInt() || ch == '.'.toInt()) nextChar()
+                    x = str.substring(startPos, pos).toDouble()
+                } else if (ch >= 'a'.toInt() && ch <= 'z'.toInt()) { // functions
+                    while (ch >= 'a'.toInt() && ch <= 'z'.toInt()) nextChar()
+                    val func = str.substring(startPos, pos)
+                    x = parseFactor()
+                    x =
+                        if (func == "sqrt") Math.sqrt(x) else if (func == "sin") Math.sin(
+                            Math.toRadians(
+                                x
+                            )
+                        ) else if (func == "cos") Math.cos(
+                            Math.toRadians(x)
+                        ) else if (func == "tan") Math.tan(Math.toRadians(x)) else throw RuntimeException(
+                            "Unknown function: $func"
+                        )
+                } else {
+                    throw RuntimeException("Unexpected: " + ch.toChar())
+                }
+                if (eat('^'.toInt())) x = Math.pow(x, parseFactor()) // exponentiation
+                return x
+            }
+        }.parse()
     }
 }
