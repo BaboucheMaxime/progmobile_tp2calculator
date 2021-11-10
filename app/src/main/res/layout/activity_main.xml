@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EDEDED"
@@ -17,8 +18,11 @@
             android:text="Calculatrice"
             android:paddingStart="11dp"
             android:paddingLeft="11dp"
+            android:paddingTop="11dp"
+            android:paddingBottom="11dp"
             android:layout_gravity="start"
             android:textColor="#FFFFFF"
+            android:textSize="25dp"
             android:background="#3F51B5"/>
     </LinearLayout>
 
@@ -42,34 +46,43 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <Button
+            android:id="@+id/button1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button1"
-            android:text="1"
             android:background="@android:drawable/editbox_background"
-            />
+            android:backgroundTint="#fff"
+            android:text="1"
+            android:textColor="#000000"
+            app:backgroundTint="#BAB5B5" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button2"
             android:text="2"
+            android:textColor="#000000"
             android:background="@android:drawable/editbox_background"
-            />
+            app:backgroundTint="#BAB5B5" />
+        />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button3"
             android:text="3"
+            android:textColor="#000000"
             android:background="@android:drawable/editbox_background"
-            />
+            app:backgroundTint="#BAB5B5" />
+        />
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/buttonadd"
             android:text="+"
+            android:textColor="#000000"
             android:background="@android:drawable/editbox_background"
-            />
+            app:backgroundTint="#BAB5B5" />
+        />
     </LinearLayout>
 
     <LinearLayout
@@ -81,29 +94,37 @@
             android:layout_height="wrap_content"
             android:id="@+id/button4"
             android:text="4"
+            android:textColor="#000000"
             android:background="@android:drawable/editbox_background"
-            />
+            app:backgroundTint="#BAB5B5" />
+        />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button5"
             android:text="5"
+            android:textColor="#000000"
             android:background="@android:drawable/editbox_background"
-            />
+            app:backgroundTint="#BAB5B5" />
+        />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button6"
             android:text="6"
+            android:textColor="#000000"
             android:background="@android:drawable/editbox_background"
-            />
+            app:backgroundTint="#BAB5B5" />
+        />
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/buttonminus"
             android:text="-"
+            android:textColor="#000000"
             android:background="@android:drawable/editbox_background"
-            />
+            app:backgroundTint="#BAB5B5" />
+        />
     </LinearLayout>
 
     <LinearLayout
@@ -115,29 +136,37 @@
             android:layout_height="wrap_content"
             android:id="@+id/button7"
             android:text="7"
+            android:textColor="#000000"
             android:background="@android:drawable/editbox_background"
-            />
+            app:backgroundTint="#BAB5B5" />
+        />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button8"
             android:text="8"
+            android:textColor="#000000"
             android:background="@android:drawable/editbox_background"
-            />
+            app:backgroundTint="#BAB5B5" />
+        />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button9"
             android:text="9"
+            android:textColor="#000000"
             android:background="@android:drawable/editbox_background"
-            />
+            app:backgroundTint="#BAB5B5" />
+        />
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/buttonmul"
             android:text="*"
+            android:textColor="#000000"
             android:background="@android:drawable/editbox_background"
-            />
+            app:backgroundTint="#BAB5B5" />
+        />
     </LinearLayout>
 
     <LinearLayout
@@ -149,29 +178,37 @@
             android:layout_height="wrap_content"
             android:id="@+id/button0"
             android:text="0"
+            android:textColor="#000000"
             android:background="@android:drawable/editbox_background"
-            />
+            app:backgroundTint="#BAB5B5" />
+        />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/buttondot"
             android:text="."
+            android:textColor="#000000"
             android:background="@android:drawable/editbox_background"
-            />
+            app:backgroundTint="#BAB5B5" />
+        />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/buttonreset"
             android:text="C"
+            android:textColor="#000000"
             android:background="@android:drawable/editbox_background"
-            />
+            app:backgroundTint="#BAB5B5" />
+        />
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/buttondiv"
             android:text="/"
+            android:textColor="#000000"
             android:background="@android:drawable/editbox_background"
-            />
+            app:backgroundTint="#BAB5B5" />
+        />
     </LinearLayout>
 
     <LinearLayout
@@ -183,8 +220,10 @@
             android:layout_height="wrap_content"
             android:id="@+id/buttonequal"
             android:text="="
+            android:textColor="#000000"
             android:background="@android:drawable/editbox_background"
-            />
+            app:backgroundTint="#BAB5B5" />
+        />
     </LinearLayout>
 
 </LinearLayout>
