@@ -31,34 +31,34 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        button0.setOnClickListener{addArgumenttoExpression("0")}
-        button1.setOnClickListener{addArgumenttoExpression("1")}
-        button2.setOnClickListener{addArgumenttoExpression("2")}
-        button3.setOnClickListener{addArgumenttoExpression("3")}
-        button4.setOnClickListener{addArgumenttoExpression("4")}
-        button5.setOnClickListener{addArgumenttoExpression("5")}
-        button6.setOnClickListener{addArgumenttoExpression("6")}
-        button7.setOnClickListener{addArgumenttoExpression("7")}
-        button8.setOnClickListener{addArgumenttoExpression("8")}
-        button9.setOnClickListener{addArgumenttoExpression("9")}
+        button0.setOnClickListener{addArgumentToExpression("0")}
+        button1.setOnClickListener{addArgumentToExpression("1")}
+        button2.setOnClickListener{addArgumentToExpression("2")}
+        button3.setOnClickListener{addArgumentToExpression("3")}
+        button4.setOnClickListener{addArgumentToExpression("4")}
+        button5.setOnClickListener{addArgumentToExpression("5")}
+        button6.setOnClickListener{addArgumentToExpression("6")}
+        button7.setOnClickListener{addArgumentToExpression("7")}
+        button8.setOnClickListener{addArgumentToExpression("8")}
+        button9.setOnClickListener{addArgumentToExpression("9")}
 
         button_add.setOnClickListener {
-            addArgumenttoExpression("+")
+            addArgumentToExpression("+")
         }
         button_minus.setOnClickListener {
-            addArgumenttoExpression("-")
+            addArgumentToExpression("-")
         }
         button_mul.setOnClickListener {
-            addArgumenttoExpression("*")
+            addArgumentToExpression("*")
         }
         button_div.setOnClickListener {
-            addArgumenttoExpression("/")
+            addArgumentToExpression("/")
         }
         button_dot.setOnClickListener {
-            addArgumenttoExpression(".")
+            addArgumentToExpression(".")
         }
         button_reset.setOnClickListener {
-            expression.setLength(0)
+            expression.clear()
             field_result.text = "0"
         }
 
@@ -66,15 +66,17 @@ class MainActivity : AppCompatActivity() {
         button_equal.setOnClickListener {
             var result = eval(expression.toString()).toString()
             field_result.text = result
-
+            expression.clear()
+            expression.append(result)
         }
     }
 
-    fun addArgumenttoExpression(string: String) {
+    private fun addArgumentToExpression(string: String) {
         expression.append(string)
+        field_result.text = expression.toString()
     }
 
-    fun eval(str: String): Double {
+    private fun eval(str: String): Double {
         return object : Any() {
             var pos = -1
             var ch = 0
@@ -131,16 +133,6 @@ class MainActivity : AppCompatActivity() {
                     while (ch >= 'a'.toInt() && ch <= 'z'.toInt()) nextChar()
                     val func = str.substring(startPos, pos)
                     x = parseFactor()
-                    x =
-                        if (func == "sqrt") Math.sqrt(x) else if (func == "sin") Math.sin(
-                            Math.toRadians(
-                                x
-                            )
-                        ) else if (func == "cos") Math.cos(
-                            Math.toRadians(x)
-                        ) else if (func == "tan") Math.tan(Math.toRadians(x)) else throw RuntimeException(
-                            "Unknown function: $func"
-                        )
                 } else {
                     throw RuntimeException("Unexpected: " + ch.toChar())
                 }
